@@ -1,0 +1,25 @@
+React Native - android build issues
+
+- Set sdk.dir={path to androidsdk} inside local.properties at android root dir 
+
+- Accept two licenses by running 
+    - yes | {path to androidsdk}/tools/bin/sdkmanager "platforms;android-28"
+    - yes |  {path to androidsdk}/tools/bin/sdkmanager "build-tools;28.0.3"
+
+- Can’t find reactnative@59.9
+    - Make sure the app is using 59.9 - take out ^ on react and react native dependencies in package.json and pin their versions 
+
+- Keystore missing
+    - Generate keystore inside android/app/keystores
+    - keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 
+
+- com.android.builder.testing.api.DeviceException: No online devices found.
+    - Restart the device on AVD manager and try building again. 
+    if it doesn't work... 
+    - install adb using brew cask install android-platform-tools
+    - Adb devices
+    - Get the deviceId
+    - react-native run-android -deviceId {deviceId}
+    
+- unable to load script make sure you are either running a metro server or that your bundle "index.android.bundle" is packaged correctly for release
+    - react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
