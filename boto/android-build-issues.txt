@@ -23,3 +23,6 @@ React Native - android build issues
     
 - unable to load script make sure you are either running a metro server or that your bundle "index.android.bundle" is packaged correctly for release
     - react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+- unable to connect to development server (when refresh app)
+    - add <application android:usesCleartextTraffic="true"... to AndroidManifest.xml
