@@ -37,7 +37,7 @@ class RNBlockstackSdk: NSObject {
     // TODO: Remove reliance on session config.
     @objc public func signIn(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         guard let config = self.config,
-            let redirectUrl = config["redirectUrl"] as? String,
+            let redirectUrl = config["redirectUrl"] as? URL,
             let appDomainString = config["appDomain"] as? String,
             let appDomain = URL(string: appDomainString) else {
                 reject(self.defaultErrorCode, "Invalid session config", nil)
@@ -47,7 +47,7 @@ class RNBlockstackSdk: NSObject {
         if let manifestPath = config["manifestUrl"] as? String {
             manifestURI = URL(string: manifestPath)
         }
-        let scopes = config["scopes"] as? [String] ?? ["store_write"]
+        let scopes = config["scopes"] as? [AuthScope] ?? [AuthScope.storeWrite]
         // TODO: REJECT when cancelled or failed, and handle this in App.js
         Blockstack.shared.signIn(redirectURI: redirectUrl, appDomain: appDomain, manifestURI: manifestURI, scopes: scopes) { authResult in
             var error: Any = NSNull()
